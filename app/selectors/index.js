@@ -1,6 +1,6 @@
-import test from "../pages/home/selectors";
+import user from "./user";
 
 
 export default {
-  test
+  user
 };

@@ -1,5 +1,5 @@
-import test from "../pages/home/actions";
+import user from "./user";
 
 export default {
-  test
+  user
 };

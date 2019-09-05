@@ -1,29 +1,19 @@
 import React from "react";
 import HOC from "HOC";
 import PropTypes from "prop-types";
+import { Container, Row, Col } from 'reactstrap';
 import actions from "actions";
 import selectors from "selectors";
+import Login from "components/forms/Login";
 
-const Home = props => (
-  <div>
-    <div>
-      <button type="button" onClick={props.onAdd}>
-          Click Me!
-      </button>
-      {" "}
-      <a href="/account">
-        Account
-      </a>
-      {" "}
-      <a href="/account/orders/1900">
-        Go an order
-      </a>
-    </div>
-    <span>
-      Click times:
-      {props.test.clicks}
-    </span>
-  </div>
+const Home = (props) => (
+  <Container>
+    <Row>
+    <Col sm="12" md={{ size: 6, offset: 3 }}>
+      <Login />
+    </Col>
+    </Row>
+  </Container>
 );
 
 Home.defaultProps = {
@@ -36,7 +26,7 @@ Home.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  test: selectors.test(state).test
+  // test: selectors.test(state).test
 });
 
 const mapDispatchToProps = dispatch => ({
