@@ -1,21 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "helpers";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import actions from "actions/modal";
+import Attendance from "./Attendance";
 
-const Unknown = props => (`Hey, dude! That modal name <<${props.modalName}>> doesn't exists.`);
+const Unknown = props => (`El modal <<${props.modalName}>> no existe.`);
 
 const MODALS = {
-  "": ""
+  [actions.TYPE.ATTENDANCE]: Attendance,
 };
 
 const Root = (props) => {
-  if (!props.modalName) return null;
-  const Node = MODALS[props.modalName] || Unknown;
+  if (!props.name) return null;
+  const Node = MODALS[props.name] || Unknown;
 
   return (
-    <div>
-      <Node />
-    </div>
+    <Modal
+      isOpen={props.open}
+      toggle={props.onClose}
+      style={props.props.style || {}}
+      className={props.props.className || ""}
+    >
+      <ModalHeader toggle={props.onClose}>
+        {props.props.title}
+      </ModalHeader>
+      <ModalBody>
+        <Node onClose={props.onClose} {...props.props} />
+      </ModalBody>
+      <ModalFooter>
+        <Button onClick={props.onClose}>
+          Cancelar
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 };
 
@@ -25,14 +43,31 @@ Root.defaultProps = {
 };
 
 Root.propTypes = {
-  modalName: PropTypes.string,
+  name: PropTypes.string,
   open: PropTypes.bool,
   onClose: PropTypes.func,
   props: PropTypes.shape({
     title: PropTypes.string,
-    info: PropTypes.object
+    info: PropTypes.object,
+    style: PropTypes.object,
+    className: PropTypes.string,
   })
 };
 
+const mapStateToProps = (state) => ({
+  ...state.get("modal").toJS()
+});
 
-export default connect()(Root);
+const mapDispatchToProps = (dispatch) => ({
+  onClose() {
+    dispatch({
+      type: actions.HIDE_MODAL
+    });
+  }
+});
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Root);

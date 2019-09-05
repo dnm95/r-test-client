@@ -1,10 +1,11 @@
 const path = require("path");
 const webpack = require("webpack");
 const withSASS = require("@zeit/next-sass");
+const withCSS = require('@zeit/next-css');
 const DotEnv = require("dotenv-webpack");
 
 
-module.exports = withSASS({
+module.exports = withCSS(withSASS({
   pageExtensions: ["jsx"],
   webpack(config, { dev }) {
     config.module.rules.push({
@@ -45,4 +46,4 @@ module.exports = withSASS({
     );
     return config;
   }
-});
+}));

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "routes";
-import { Button, ButtonGroup, ButtonToolbar, Table, Row, Col } from 'reactstrap';
+import { Button, Table, Row, Col } from 'reactstrap';
 
 const EmployeeList = (props) => {
   return (
