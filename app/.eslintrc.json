@@ -1,0 +1,65 @@
+{
+  "root": true,
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "extends": ["airbnb"],
+  "plugins": ["react", "react-hooks"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "quotes": ["error", "double"],
+    "no-console": "warn",
+    "no-var": "error",
+    "no-unused-vars": "error",
+    "indent": ["error", 2],
+    "arrow-spacing": [
+      "error",
+      { "before": true, "after": true }
+    ],
+    "jsx-quotes": ["error", "prefer-double"],
+    "react/display-name": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".js", ".jsx"] }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "no-param-reassign": "off",
+    "comma-dangle": "off",
+    "camelcase": "off",
+    "import/no-unresolved": "off",
+    "react/destructuring-assignment": "off",
+    "react/require-default-props": [
+      "off", {
+        "forbidDefaultForRequired": false
+      }
+    ],
+    "quote-props": ["off", "as-needed"],
+    "prefer-const": "error",
+    "react/forbid-prop-types": ["off", {
+      "forbid": ["array"]
+    }],
+    "react/no-unused-prop-types": "off",
+    "jsx-a11y/anchor-is-valid": [ "error", {
+      "components": ["Link"],
+      "specialLink": ["route", "className"],
+      "aspects": ["noHref", "invalidHref", "preferButton"]
+    }]
+  }
+}
