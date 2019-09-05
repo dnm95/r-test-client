@@ -10,23 +10,23 @@ const initialState = fromJS({
     lastName: "",
     rfc: "",
     email: "",
+    attendance: [],
   },
-  admin: false,
 });
 
 export default (state = initialState, action) => {
   switch (action.type) {
-  case actions.REQUEST_LOGIN: {
+  case actions.REQUEST_EMPLOYEE_DATA: {
     return state
       .set("loading", true);
   }
 
-  case actions.REQUEST_LOGIN_SUCCESS: {
+  case actions.REQUEST_EMPLOYEE_DATA_SUCCESS: {
     return state
       .set("loading", false);
   }
 
-  case actions.REQUEST_LOGIN_FAILED: {
+  case actions.REQUEST_EMPLOYEE_DATA_FAILED: {
     return state
       .set("loading", false);
   }

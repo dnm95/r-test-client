@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "routes";
-import { Button, ButtonGroup, ButtonToolbar, Table } from 'reactstrap';
+import { Button, ButtonGroup, ButtonToolbar, Table, Row, Col } from 'reactstrap';
 
 const EmployeeList = (props) => {
   return (
@@ -20,17 +20,21 @@ const EmployeeList = (props) => {
           <td>05/09/2019 08:30</td>
           <td>05/09/2019 18:30</td>
           <td>
-            <ButtonToolbar>
-              <ButtonGroup>
+            <Row style={{ marginLeft: "0px", marginRight: "0px" }}>
+              <Col xs="4" style={{ padding: "0px" }}>
                 <Link route="employee.detail" params={{ id: 1 }}>
                   <a>
-                    <Button color="success">Ver</Button>
+                    <Button style={{ borderRadius: "0px" }} color="success" block>Ver</Button>
                   </a>
                 </Link>
-                <Button color="warning">Editar</Button>
-                <Button color="danger">Eliminar</Button>
-              </ButtonGroup>
-            </ButtonToolbar>
+              </Col>
+              <Col xs="4" style={{ padding: "0px" }}>
+                <Button style={{ borderRadius: "0px" }} color="warning" block>Editar</Button>
+              </Col>
+              <Col xs="4" style={{ padding: "0px" }}>
+                <Button style={{ borderRadius: "0px" }} color="danger" block>Eliminar</Button>
+              </Col>
+            </Row>
           </td>
         </tr>
       </tbody>

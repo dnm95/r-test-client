@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import HOC from "HOC";
 import actions from "actions";
 import selectors from "selectors";
+import SearchBar from "components/commons/SearchBar";
 import Header from "./components/Header";
 import EmployeeList from "./components/EmployeeList";
 
@@ -13,10 +14,13 @@ const Dashboard = (props) => {
       <Header />
       <Container>
         <Row>
-          <Col xs="12" style={{ padding: "1em 0px 0px 0px" }}>
+          <Col xs="12" style={{ padding: "1em 0px 1.5em 0px" }}>
             <Button outline className="float-right" color="info">Agregar empleado</Button>
           </Col>
-          <Col xs="12" style={{ padding: "1em 0px" }}>
+          <Col xs="12" style={{ padding: "0px" }}>
+            <SearchBar />
+          </Col>
+          <Col xs="12" style={{ padding: "0.5em 0px" }}>
             <EmployeeList />
           </Col>
         </Row>
