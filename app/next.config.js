@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const withSASS = require("@zeit/next-sass");
-const withCSS = require('@zeit/next-css');
+const withCSS = require("@zeit/next-css");
 const DotEnv = require("dotenv-webpack");
 
 

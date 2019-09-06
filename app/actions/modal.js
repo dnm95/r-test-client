@@ -3,5 +3,6 @@ export default {
   HIDE_MODAL: "HIDE_MODAL",
   TYPE: {
     ATTENDANCE: "ATTENDANCE",
+    EMPLOYEE: "EMPLOYEE",
   },
 };

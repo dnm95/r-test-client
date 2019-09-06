@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from 'reactstrap';
 import HOC from "HOC";
 import actions from "actions";
-import EmployeeInfo from "components/forms/EmployeeInfo";
-import Attendance from "./components/Attendance";
+import AddEditEmployee from "components/forms/AddEditEmployee";
+import AttendanceList from "./components/AttendanceList";
 
 const EmployeeDetail = (props) => {
   const { onDisplayModal } = props;
@@ -12,30 +12,33 @@ const EmployeeDetail = (props) => {
     <Container>
       <h2>Detalle del Empleado</h2>
       <Row>
-        <Col sm="6">
-          <h3 style={{ padding: "0.5em 0px" }}>Información</h3>
-          <EmployeeInfo />
+        <Col sm="5">
+          <h3 style={{ paddingTop: "0.5em" }}>Información Personal</h3>
+          <Row>
+            <Col sm="12" style={{ padding: "1em 15px" }}>
+              <Button
+                color="success"
+                onClick={() => onDisplayModal({ title: "Editar empleado", edit: true }, "EMPLOYEE")}
+              >
+                Editar Información
+              </Button>
+            </Col>
+          </Row>
+          <AddEditEmployee readOnly />
         </Col>
-        <Col sm="6">
-          <h3 style={{ padding: "0.5em 0px" }}>Registro</h3>
+        <Col sm="7">
+          <h3 style={{ paddingTop: "0.5em" }}>Registro</h3>
           <Row>
             <Col sm="12" style={{ padding: "1em 15px" }}>
               <Button
                 color="primary"
-                onClick={() => onDisplayModal("Registrar entrada del empleado", "entry_time")}
+                onClick={() => onDisplayModal({ title: "Registrar hora" }, "ATTENDANCE")}
               >
-                Registrar Entrada
-              </Button>
-              <Button
-                color="primary"
-                className="float-right"
-                onClick={() => onDisplayModal("Registrar salida del empleado", "departure_time")}
-              >
-                Registrar Salida
+                Registrar hora de entrada / salida
               </Button>
             </Col>
           </Row>
-          <Attendance />
+          <AttendanceList />
         </Col>
       </Row>
     </Container>
@@ -47,13 +50,13 @@ EmployeeDetail.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onDisplayModal(title, type) {
+  onDisplayModal(modalProps, type) {
     dispatch({
       type: actions.modal.OPEN_MODAL,
       payload: {
-        name: actions.modal.TYPE.ATTENDANCE,
+        name: actions.modal.TYPE[type],
         confirm: true,
-        props: { title, type },
+        props: { ...modalProps },
       }
     });
   }

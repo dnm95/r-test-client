@@ -1,12 +1,12 @@
 import { createSelector } from "reselect";
 
-const makeSelector = state => state.get("employee").toJS();
+const makeSelector = (state) => state.get("employee").toJS();
 
 const employeeSelector = createSelector(
   [makeSelector],
-  employee => employee
+  (employee) => employee
 );
 
-export default state => ({
+export default (state) => ({
   employee: employeeSelector(state)
 });

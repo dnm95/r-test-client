@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Collapse,
   Navbar,
@@ -10,7 +9,7 @@ import {
   NavLink,
 } from 'reactstrap';
 
-const Header = (props) => {
+const Header = () => {
   return (
     <Navbar color="light" light expand="md">
       <NavbarBrand href="/">reactstrap</NavbarBrand>

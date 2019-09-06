@@ -1,12 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
-import Header from "./Header";
-import Footer from "./Footer";
+// import Header from "./Header";
+// import Footer from "./Footer";
 import MRoot from "./modals/Root";
 import "static/assets/scss/main.scss";
 
-const Layout = props => (
+const Layout = (props) => (
   <div>
     <Head>
       <title>{ props.title }</title>

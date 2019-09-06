@@ -1,21 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Button } from 'reactstrap';
+import {
+  Container, Row, Col, Button
+} from "reactstrap";
 import HOC from "HOC";
 import actions from "actions";
-import selectors from "selectors";
 import SearchBar from "components/commons/SearchBar";
 import Header from "./components/Header";
 import EmployeeList from "./components/EmployeeList";
 
 const Dashboard = (props) => {
+  const { onDisplayModal } = props;
   return (
     <>
       <Header />
       <Container>
         <Row>
           <Col xs="12" style={{ padding: "1em 0px 1.5em 0px" }}>
-            <Button outline className="float-right" color="info">Agregar empleado</Button>
+            <Button
+              outline
+              className="float-right"
+              color="info"
+              onClick={() => onDisplayModal({ title: "Añadir empleado", edit: false }, "EMPLOYEE")}
+            >
+              Agregar empleado
+            </Button>
           </Col>
           <Col xs="12" style={{ padding: "0px" }}>
             <SearchBar />
@@ -29,28 +38,24 @@ const Dashboard = (props) => {
   );
 };
 
-Dashboard.defaultProps = {
-  onSubmit() {},
-  loading: false,
-};
-
 Dashboard.propTypes = {
-  loading: PropTypes.bool,
-  onSubmit: PropTypes.func,
+  onDisplayModal: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  loading: selectors.user(state).loading,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit(e, data) {
-    e.preventDefault();
-    dispatch({ type: actions.user.REQUEST_LOGIN, payload: { ...data } });
+const mapDispatchToProps = (dispatch) => ({
+  onDisplayModal(modalProps, type) {
+    dispatch({
+      type: actions.modal.OPEN_MODAL,
+      payload: {
+        name: actions.modal.TYPE[type],
+        confirm: true,
+        props: { ...modalProps },
+      }
+    });
   }
 });
 
 export default HOC(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Dashboard);

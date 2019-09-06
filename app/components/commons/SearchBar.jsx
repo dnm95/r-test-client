@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
+import {
+  InputGroup, InputGroupAddon, Button, Input
+} from "reactstrap";
 
 const SearchBar = (props) => {
   const { onSearch } = props;
@@ -25,7 +27,7 @@ const SearchBar = (props) => {
 };
 
 SearchBar.propTypes = {
-  onSearch: PropTypes.func.isRequired,
+  onSearch: PropTypes.func,
 };
 
 export default SearchBar;

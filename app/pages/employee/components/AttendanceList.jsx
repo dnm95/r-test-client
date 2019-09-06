@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Table } from 'reactstrap';
+import { Table } from "reactstrap";
 
-const Attendance = (props) => {
+const Attendance = () => {
   return (
     <Table bordered>
       <thead>

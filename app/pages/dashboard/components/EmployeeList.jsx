@@ -1,9 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link } from "routes";
-import { Button, Table, Row, Col } from 'reactstrap';
+import {
+  Button, Table, Row, Col
+} from "reactstrap";
 
-const EmployeeList = (props) => {
+const EmployeeList = () => {
   return (
     <Table bordered>
       <thead>

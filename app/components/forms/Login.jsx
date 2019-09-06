@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import {
+  Form, FormGroup, Label, Input, Button
+} from "reactstrap";
 import { connect } from "helpers";
 import actions from "actions";
 import selectors from "selectors";
@@ -25,6 +27,7 @@ const Login = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={loading}
+          value={data.email}
           required
         />
       </FormGroup>
@@ -37,6 +40,7 @@ const Login = (props) => {
           placeholder="contraseña"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={loading}
+          value={data.password}
           required
         />
       </FormGroup>
@@ -55,11 +59,11 @@ Login.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: selectors.user(state).loading,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onSubmit(e, data) {
     e.preventDefault();
     dispatch({ type: actions.user.REQUEST_LOGIN, payload: { ...data } });

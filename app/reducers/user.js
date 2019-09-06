@@ -4,12 +4,8 @@ import actions from "actions/user";
 const initialState = fromJS({
   loading: false,
   data: {
-    id: null,
-    name: "",
-    firstName: "",
-    lastName: "",
-    rfc: "",
     email: "",
+    role: "",
   },
   admin: false,
 });

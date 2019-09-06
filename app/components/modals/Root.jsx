@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "helpers";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Button, Modal, ModalHeader, ModalBody, ModalFooter
+} from "reactstrap";
 import actions from "actions/modal";
 import Attendance from "./Attendance";
+import Employee from "./Employee";
 
-const Unknown = props => (`El modal <<${props.modalName}>> no existe.`);
+const Unknown = (props) => (`El modal <<${props.modalName}>> no existe.`);
 
 const MODALS = {
   [actions.TYPE.ATTENDANCE]: Attendance,
+  [actions.TYPE.EMPLOYEE]: Employee,
 };
 
 const Root = (props) => {

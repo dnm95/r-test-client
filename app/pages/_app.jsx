@@ -45,6 +45,6 @@ class CustomApp extends App {
 }
 
 export default withRedux(makeStore, {
-  serializeState: state => state.toJS(),
-  deserializeState: state => fromJS(state)
+  serializeState: (state) => state.toJS(),
+  deserializeState: (state) => fromJS(state)
 })(withReduxSaga(CustomApp));
