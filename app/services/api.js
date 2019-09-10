@@ -61,7 +61,7 @@ const AxiosDispatchResponse = (cls, verb, params) => {
   }
 
   if (cls.access_token) {
-    self.axios_instance.defaults.headers.common.Token = cls.access_token;
+    axios.defaults.headers.common['Authorization'] = cls.access_token;
   }
 
   return self.axios_instance[verb](cls.resource.concat("/"), parameters)

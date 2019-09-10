@@ -1,11 +1,10 @@
-module.exports = (req) => ({
+module.exports = (req, res) => ({
   getAccessToken() {
-    return req && req.session && req.session.accessToken;
+    return req && req.cookies && req.cookies.token;
   },
 
   async setAuth(auth) {
-    req.session.accessToken = auth.token;
-    req.session.user = { email: auth.email, role: auth.role };
-    return req.session.save();
+    res.cookie('token', auth.token, { maxAge: 900000, httpOnly: false });
+    res.cookie('user', JSON.stringify({ email: auth.email, role: auth.role }), { maxAge: 900000, httpOnly: false });
   }
 });

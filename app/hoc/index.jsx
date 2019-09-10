@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "next/router";
 import PropTypes from "prop-types";
+import cookies from 'next-cookies'
 import api from "Api";
 import { connect } from "helpers";
 import selectors from "selectors";
@@ -18,14 +19,13 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
       const dispatch = Object.assign({}, action, { isServer }, { query: rest.query });
       if (isServer) {
         const rootTask = store.runSagaTask();
-        const { accessToken, user } = ctx.req.session;
+        const { token, user } = cookies(ctx);
 
         store.dispatch({
           type: "INJECT_FROM_SERVER",
           payload: {
-            csrfToken: ctx.req.csrfToken(),
-            accessToken,
-            user,
+            accessToken: token || null,
+            user: user ? JSON.parse(user) : null,
           },
         });
         store.dispatch(dispatch);
