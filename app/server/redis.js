@@ -2,6 +2,7 @@ const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 
 
+// eslint-disable-next-line camelcase
 function retry_strategy(options) {
   if (options.error && options.error.code === "ECONNREFUSED") {
     return new Error("The server refused the connection");
@@ -23,7 +24,7 @@ const redis = require("redis").createClient({
   port: process.env.REDIS_PORT,
   password: process.env.REDIS_PASSWORD,
   db: 0,
-  prefix: "web:app:",
+  prefix: "web:app_runa:",
   retry_strategy
 });
 

@@ -1,5 +1,9 @@
 import React from "react";
+import { withRouter } from "next/router";
+import PropTypes from "prop-types";
+import api from "Api";
 import { connect } from "helpers";
+import selectors from "selectors";
 
 
 export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions) => {
@@ -14,6 +18,16 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
       const dispatch = Object.assign({}, action, { isServer }, { query: rest.query });
       if (isServer) {
         const rootTask = store.runSagaTask();
+        const { accessToken, user } = ctx.req.session;
+
+        store.dispatch({
+          type: "INJECT_FROM_SERVER",
+          payload: {
+            csrfToken: ctx.req.csrfToken(),
+            accessToken,
+            user,
+          },
+        });
         store.dispatch(dispatch);
         store.close();
         await rootTask.toPromise().then();
@@ -22,11 +36,15 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
         store.dispatch(dispatch);
       }
 
-      const props = {};
-      if (ctx.req.csrfToken) {
-        props.csrfToken = ctx.req.csrfToken();
-      }
-      return props;
+      const pageProps = BaseComponent.getInitialProps
+        ? await BaseComponent.getInitialProps(ctx)
+        : {};
+      return { pageProps };
+    }
+
+    componentDidMount() {
+      const { accessToken } = this.props;
+      api.access_token = accessToken;
     }
 
     render() {
@@ -38,9 +56,21 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
     }
   }
 
-  const hoc = connect(
-    mapStateToProps,
+  HOC.defaultProps = {
+    accessToken: null,
+  };
+
+  HOC.propTypes = {
+    accessToken: PropTypes.string,
+  };
+
+  const superMapStateToProps = (state) => ({
+    ...selectors.globals(state),
+    ...(mapStateToProps ? mapStateToProps(state) : {})
+  });
+
+  return connect(
+    superMapStateToProps,
     mapDispatchToProps
-  )(HOC);
-  return hoc;
+  )(withRouter(HOC));
 };

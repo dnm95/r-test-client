@@ -1,50 +1,45 @@
 const axios = require("axios");
 const http = require("http");
 const https = require("https");
+const isEmpty = require("lodash/isEmpty");
 
 const { API_URI } = process.env;
 const { API_PORT } = process.env;
 const { API_VERSION } = process.env;
-const PROTOCOL = process.env.NODE_ENV === "production" ? "https" : "http";
-const BASE_URL = `${PROTOCOL}://${API_URI}:${API_PORT}/${API_VERSION}/`;
+const { NODE_ENV } = process.env;
+const { NODE_SERVER } = process.env;
 
-const getToken = () => {
-  if (typeof window === "undefined") return null;
-  const cookies = document.cookie.split(";");
-  console.log(cookies);
-  return false;
-};
+const PROTOCOL = ((NODE_ENV === "production" && NODE_SERVER === "production") ? "https" : "http");
+const BASE_URL = API_PORT ? `${PROTOCOL}://${API_URI}:${API_PORT}/${API_VERSION}` : `${PROTOCOL}://${API_URI}/${API_VERSION}`;
 
-const MakeHeaders = (token) => {
+const MakeHeaders = () => {
   const headers = {
     "Content-Type": "application/json",
-    "Accept": "application/json"
+    Accept: "application/json",
   };
-
-  const access_token = token || getToken();
-  if (access_token) {
-    headers.Token = access_token;
-  }
-
   return { ...headers };
 };
 
-const AxiosInstance = (token) => {
-  const axios_config = {};
-  axios_config.baseURL = BASE_URL;
-  axios_config.timeout = 1000 * 35;
-  axios_config.responseType = "json";
-  axios_config.headers = MakeHeaders(token);
-  axios_config.httpAgent = new http.Agent({ keepAlive: true });
-  axios_config.httpsAgent = new https.Agent({ keepAlive: true });
-  axios_config.transformResponse = [
-    response => (typeof response === "string" ? JSON.parse(response) : response)
-  ];
 
-  return axios.create(axios_config);
+const AxiosInstance = (cfg = {}) => {
+  const axiosConfig = {
+    baseURL: BASE_URL,
+    timeout: 1000 * 35,
+    responseType: "json",
+    headers: MakeHeaders(),
+    httpAgent: new http.Agent({ keepAlive: true }),
+    httpsAgent: new https.Agent({ keepAlive: true }),
+    transformResponse: [
+      (response) => (typeof response === "string" ? JSON.parse(response) : response)
+    ],
+    ...cfg
+  };
+
+  return axios.create(axiosConfig);
 };
 
-const errorResponse = (err) => {
+const responseParser = (response) => response.data;
+const errorParser = (err) => {
   let error = err;
   if (err.response && err.response.data) {
     // eslint-disable-next-line prefer-destructuring
@@ -53,28 +48,54 @@ const errorResponse = (err) => {
   throw error;
 };
 
-const AxiosDispatchResponse = (method, resource, params) => {
+const AxiosDispatchResponse = (cls, verb, params) => {
   const { body, qs } = params || {};
-
+  const self = cls;
   let parameters = {};
-  if (body) {
+  if (!body && !qs && !isEmpty(params)) {
+    parameters.data = params;
+  } else if (body) {
     parameters = body;
   } else if (qs) {
     parameters.params = qs;
   }
 
-  return method(resource, parameters).then(response => response.data).catch(errorResponse);
-};
-
-class ApiRequest {
-  constructor(resource = null, token = null) {
-    this.axios_instance = AxiosInstance(token);
-    this.resource = resource;
+  if (cls.access_token) {
+    self.axios_instance.defaults.headers.common.Token = cls.access_token;
   }
 
-  get = params => AxiosDispatchResponse(this.axios_instance.get, this.resource, params);
+  return self.axios_instance[verb](cls.resource.concat("/"), parameters)
+    .then(responseParser)
+    .catch(errorParser);
+};
 
-  put = params => AxiosDispatchResponse(this.axios_instance.put, this.resource, params);
+let that = null;
+class ApiRequest {
+  constructor() {
+    this.resource = null;
+    this.access_token = null;
+    this.axios_instance = AxiosInstance();
+    that = this;
+  }
+
+  get(params) {
+    return AxiosDispatchResponse(this || that, "get", params);
+  }
+
+  put(params) {
+    return AxiosDispatchResponse(this || that, "put", params);
+  }
+
+  post(params) {
+    return AxiosDispatchResponse(this || that, "post", params);
+  }
+
+  delete(params) {
+    return AxiosDispatchResponse(this || that, "delete", params);
+  }
 }
 
 module.exports = ApiRequest;
+module.exports.AxiosInstance = AxiosInstance;
+module.exports.responseParser = responseParser;
+module.exports.errorParser = errorParser;

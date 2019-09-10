@@ -1,13 +1,17 @@
-const GetToken = require("./get.token");
+const Authorization = require("./authorization");
 
 module.exports = function withRedirect(error, to) {
+  let go = to;
   return function GoTo(req, res, next) {
     if (error) return res.redirect("/5xx");
-    const has_redirect = req.method.toLowerCase() === "post" && GetToken(req);
-    if (has_redirect) {
-      to = decodeURIComponent(req.body.next || to);
+    const accessToken = Authorization(req).getAccessToken();
+    const hasredirect = req.method.toLowerCase() === "post" && accessToken;
+    const hasNext = req && req.body && req.body.next;
+
+    if (hasredirect && hasNext) {
+      go = decodeURIComponent(req.body.next || go);
     }
-    if (to) return res.redirect(to);
+    if (go) return res.redirect(go);
     next();
   };
 };

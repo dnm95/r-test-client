@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-  Form, FormGroup, Label, Input, Button
+  FormGroup, Label, Input
 } from "reactstrap";
-import { connect } from "helpers";
-import actions from "actions";
-import selectors from "selectors";
-
-const initialState = {
-  email: "",
-  password: "",
-};
+import SecureForm from "./SecureForm";
 
 const Login = (props) => {
-  const { loading, onSubmit } = props;
-  const [data, setData] = useState(initialState);
+  const { csrfToken, next } = props;
   return (
-    <Form onSubmit={(e) => onSubmit(e, data)}>
+    <SecureForm
+      action="/authentication"
+      onSubmit={() => {}}
+      csrfToken={csrfToken}
+      next={next}
+      buttonProps={{ copy: "Entrar" }}
+    >
       <FormGroup>
         <Label for="email">Email</Label>
         <Input
@@ -25,9 +23,6 @@ const Login = (props) => {
           id="email"
           placeholder="usuario@email.com"
           autoComplete="off"
-          onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
-          disabled={loading}
-          value={data.email}
           required
         />
       </FormGroup>
@@ -38,39 +33,20 @@ const Login = (props) => {
           name="password"
           id="password"
           placeholder="contraseña"
-          onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
-          disabled={loading}
-          value={data.password}
           required
         />
       </FormGroup>
-      <Button color="primary" size="lg" block>Ingresar</Button>
-    </Form>
+    </SecureForm>
   );
 };
 
 Login.defaultProps = {
-  onSubmit() {},
-  loading: false,
+  next: "",
 };
 
 Login.propTypes = {
-  loading: PropTypes.bool,
-  onSubmit: PropTypes.func,
+  csrfToken: PropTypes.string.isRequired,
+  next: PropTypes.string
 };
 
-const mapStateToProps = (state) => ({
-  loading: selectors.user(state).loading,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(e, data) {
-    e.preventDefault();
-    dispatch({ type: actions.user.REQUEST_LOGIN, payload: { ...data } });
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default Login;

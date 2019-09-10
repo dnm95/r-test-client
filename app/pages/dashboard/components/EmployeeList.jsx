@@ -23,7 +23,7 @@ const EmployeeList = () => {
           <td>
             <Row style={{ marginLeft: "0px", marginRight: "0px" }}>
               <Col xs="4" style={{ padding: "0px" }}>
-                <Link route="employee.detail" params={{ id: 1 }}>
+                <Link route="secure.employee.detail" params={{ id: 1 }}>
                   <a>
                     <Button style={{ borderRadius: "0px" }} color="success" block>Ver</Button>
                   </a>

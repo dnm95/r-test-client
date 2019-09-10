@@ -4,8 +4,7 @@ const routes = nextRoutes();
 
 routes
   .add("home", "/", "home")
-  .add("dashboard", "/dashboard", "dashboard")
-  .add("employee.detail", "/employee/:id", "employee")
-  .add("secure.account.order.id", "/account/orders/:orderId", "account/containers/Order.id");
+  .add("secure.dashboard", "/dashboard", "dashboard")
+  .add("secure.employee.detail", "/employee/:id", "employee");
 
 module.exports = routes;
