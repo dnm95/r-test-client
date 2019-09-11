@@ -6,12 +6,11 @@ import {
 import SecureForm from "./SecureForm";
 
 const Login = (props) => {
-  const { csrfToken, next } = props;
+  const { next } = props;
   return (
     <SecureForm
       action="/authentication"
       onSubmit={() => {}}
-      csrfToken={csrfToken}
       next={next}
       buttonProps={{ copy: "Entrar" }}
     >
@@ -45,7 +44,6 @@ Login.defaultProps = {
 };
 
 Login.propTypes = {
-  csrfToken: PropTypes.string.isRequired,
   next: PropTypes.string
 };
 

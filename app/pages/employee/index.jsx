@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from 'reactstrap';
 import HOC from "HOC";
 import actions from "actions";
+import selectors from "selectors";
 import AddEditEmployee from "components/forms/AddEditEmployee";
 import AttendanceList from "./components/AttendanceList";
 
 const EmployeeDetail = (props) => {
-  const { onDisplayModal } = props;
+  const { employee, onDisplayModal } = props;
   return (
     <Container>
       <h2>Detalle del Empleado</h2>
@@ -24,7 +25,7 @@ const EmployeeDetail = (props) => {
               </Button>
             </Col>
           </Row>
-          <AddEditEmployee readOnly />
+          <AddEditEmployee employee={employee} readOnly />
         </Col>
         <Col sm="7">
           <h3 style={{ paddingTop: "0.5em" }}>Registro</h3>
@@ -38,7 +39,7 @@ const EmployeeDetail = (props) => {
               </Button>
             </Col>
           </Row>
-          <AttendanceList />
+          <AttendanceList attendances={employee.data.attendance} />
         </Col>
       </Row>
     </Container>
@@ -48,6 +49,10 @@ const EmployeeDetail = (props) => {
 EmployeeDetail.propTypes = {
   onDisplayModal: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  employee: selectors.employee(state).employee,
+});
 
 const mapDispatchToProps = dispatch => ({
   onDisplayModal(modalProps, type) {
@@ -62,4 +67,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default HOC(null, mapDispatchToProps)(EmployeeDetail);
+export default HOC(mapStateToProps, mapDispatchToProps)(EmployeeDetail, {
+  type: actions.employee.REQUEST_EMPLOYEE_DATA,
+  payload: {}
+});

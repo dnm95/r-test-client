@@ -6,7 +6,6 @@ import {
 import omit from "lodash/omit";
 import { connect } from "helpers";
 import actions from "actions";
-import selectors from "selectors";
 
 const AddEditEmployee = (props) => {
   const {
@@ -39,7 +38,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.firstName}
+          value={data.first_name}
           required
         />
       </FormGroup>
@@ -53,7 +52,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.lastName}
+          value={data.last_name}
           required
         />
       </FormGroup>
@@ -107,10 +106,6 @@ AddEditEmployee.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  employee: selectors.employee(state).employee,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(e, data) {
     e.preventDefault();
@@ -119,6 +114,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AddEditEmployee);

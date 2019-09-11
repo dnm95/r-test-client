@@ -10,3 +10,5 @@ const employeeSelector = createSelector(
 export default (state) => ({
   employee: employeeSelector(state)
 });
+
+export { employeeSelector };

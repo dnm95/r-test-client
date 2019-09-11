@@ -1,27 +1,38 @@
 import React from "react";
-import { Table } from "reactstrap";
+import PropTypes from "prop-types";
+import moment from "moment";
 
-const Attendance = () => {
+const Attendance = (props) => {
   return (
-    <Table bordered>
+    <table className="table table-bordered">
       <thead>
         <tr>
-          <th>Entrada</th>
-          <th>Salida</th>
+          <th scope="col">Ingreso</th>
+          <th scope="col">Salida</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>05/09/2019 08:30</td>
-          <td>05/09/2019 18:30</td>
-        </tr>
+        {props.attendances.length > 0 && props.attendances.map((att) => (
+          <tr key={att.entry_date}>
+            <td>
+              {att.entry_date ? `${moment(att.entry_date).format("MM-DD-YYYY")} ${moment(att.entry_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
+            </td>
+            <td>
+              {att.departure_date ? `${moment(att.departure_date).format("MM-DD-YYYY")} ${moment(att.departure_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
+            </td>
+          </tr>
+        ))}
       </tbody>
-    </Table>
+    </table>
   );
 };
 
-Attendance.defaultProps = {};
+Attendance.defaultProps = {
+  attendances: [],
+};
 
-Attendance.propTypes = {};
+Attendance.propTypes = {
+  attendances: PropTypes.array,
+};
 
 export default Attendance;

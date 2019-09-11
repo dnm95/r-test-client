@@ -8,7 +8,6 @@ const globalsSelector = createSelector(
 );
 
 export default (state) => ({
-  csrfToken: globalsSelector(state).csrfToken,
   accessToken: globalsSelector(state).accessToken,
 });
 

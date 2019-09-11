@@ -8,7 +8,7 @@ const Home = (props) => (
   <Container>
     <Row>
       <Col sm="12" md={{ size: 6, offset: 3 }}>
-        <Login next={props.router.query.next} csrfToken={props.csrfToken} />
+        <Login next={props.router.query.next} />
       </Col>
     </Row>
   </Container>
@@ -16,7 +16,6 @@ const Home = (props) => (
 
 Home.propTypes = {
   router: PropTypes.object,
-  csrfToken: PropTypes.string
 };
 
 export default HOC()(Home);

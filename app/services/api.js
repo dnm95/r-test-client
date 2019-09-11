@@ -12,10 +12,10 @@ const { NODE_SERVER } = process.env;
 const PROTOCOL = ((NODE_ENV === "production" && NODE_SERVER === "production") ? "https" : "http");
 const BASE_URL = API_PORT ? `${PROTOCOL}://${API_URI}:${API_PORT}/${API_VERSION}` : `${PROTOCOL}://${API_URI}/${API_VERSION}`;
 
-const MakeHeaders = () => {
+const MakeHeaders = async () => {
   const headers = {
     "Content-Type": "application/json",
-    Accept: "application/json",
+    Accept: "application/json"
   };
   return { ...headers };
 };
@@ -52,6 +52,7 @@ const AxiosDispatchResponse = (cls, verb, params) => {
   const { body, qs } = params || {};
   const self = cls;
   let parameters = {};
+
   if (!body && !qs && !isEmpty(params)) {
     parameters.data = params;
   } else if (body) {
@@ -60,11 +61,14 @@ const AxiosDispatchResponse = (cls, verb, params) => {
     parameters.params = qs;
   }
 
-  if (cls.access_token) {
-    axios.defaults.headers.common['Authorization'] = cls.access_token;
+  if (self.accessToken) {
+    self.axios_instance.defaults.headers.Authorization = self.accessToken;
   }
 
-  return self.axios_instance[verb](cls.resource.concat("/"), parameters)
+  return self.axios_instance[verb](
+    self.resource.concat("/"),
+    parameters
+  )
     .then(responseParser)
     .catch(errorParser);
 };
@@ -73,7 +77,7 @@ let that = null;
 class ApiRequest {
   constructor() {
     this.resource = null;
-    this.access_token = null;
+    this.accessToken = null;
     this.axios_instance = AxiosInstance();
     that = this;
   }

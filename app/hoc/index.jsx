@@ -42,12 +42,8 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
       return { pageProps };
     }
 
-    componentDidMount() {
-      const { accessToken } = this.props;
-      api.access_token = accessToken;
-    }
-
     render() {
+      api.accessToken = this.props.accessToken;
       return (
         <BaseComponent
           {...this.props}
@@ -69,8 +65,8 @@ export default (mapStateToProps, mapDispatchToProps) => (BaseComponent, actions)
     ...(mapStateToProps ? mapStateToProps(state) : {})
   });
 
-  return connect(
+  return withRouter(connect(
     superMapStateToProps,
     mapDispatchToProps
-  )(withRouter(HOC));
+  )(HOC));
 };

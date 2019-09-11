@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => ({
   onSetAttendance(e, data) {
     e.preventDefault();
     dispatch({
-      type: actions.employee.SET_EMPLOYEE_ATTENDANCE,
+      type: actions.employee.CREATE_EMPLOYEE_ATTENDANCE,
       payload: { ...data },
     });
   }

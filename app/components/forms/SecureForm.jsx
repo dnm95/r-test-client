@@ -4,10 +4,9 @@ import PropTypes from "prop-types";
 
 
 const Login = ({
-  children, csrfToken, next, action, buttonProps
+  children, next, action, buttonProps
 }) => (
   <Form method="post" action={action} onSubmit={() => {}}>
-    <input type="hidden" name="_csrf" value={csrfToken} />
     <input type="hidden" name="next" value={next} />
     { children }
     <Button type="submit" color="primary" size="lg" block>
@@ -27,7 +26,6 @@ Login.defaultProps = {
 };
 
 Login.propTypes = {
-  csrfToken: PropTypes.string.isRequired,
   next: PropTypes.string,
   children: PropTypes.node,
   action: PropTypes.string,
