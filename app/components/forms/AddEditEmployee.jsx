@@ -11,7 +11,7 @@ const AddEditEmployee = (props) => {
   const {
     employee, readOnly, edit, onSubmit
   } = props;
-  const [data, setData] = useState({ ...omit(employee.data, ["attendance"]) });
+  const [data, setData] = useState({ ...omit(employee.active, ["attendance"]) });
   return (
     <Form onSubmit={(e) => onSubmit(e, data)}>
       <FormGroup>

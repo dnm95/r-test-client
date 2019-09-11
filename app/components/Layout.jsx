@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import PropTypes from "prop-types";
-// import Header from "./Header";
-// import Footer from "./Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 import MRoot from "./modals/Root";
 import "static/assets/scss/main.scss";
 
@@ -14,9 +14,9 @@ const Layout = (props) => (
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" key="viewport" />
     </Head>
-    {/* <Header /> */}
+    <Header />
     <div>{ props.children }</div>
-    {/* <Footer /> */}
+    <Footer />
     <MRoot />
   </div>
 );

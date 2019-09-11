@@ -3,18 +3,14 @@ import PropTypes from "prop-types";
 import { Container } from "reactstrap";
 import HOC from "HOC";
 import selectors from "selectors";
-import Header from "./components/Header";
 import Admin from "./components/Admin";
 
 const Dashboard = (props) => {
   const { user } = props;
   return (
-    <>
-      <Header />
-      <Container>
-        {user.role === "admin" ? <Admin /> :  null}
-      </Container>
-    </>
+    <Container>
+      {user.role === "admin" ? <Admin /> :  null}
+    </Container>
   );
 };
 

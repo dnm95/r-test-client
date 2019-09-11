@@ -1,15 +1,14 @@
 import React from "react";
-import styled from "styled-components";
-
-
-const LuunaFooter = styled.footer`
-  margin: auto auto 0 auto;
-`;
+import { Container } from "reactstrap";
 
 const Footer = () => (
-  <LuunaFooter>
-    Footer
-  </LuunaFooter>
+  <footer className="footer">
+    <Container>
+      <div className="text-center">
+        <p>RUNA TEST - DANIEL NAVA - 2019</p>
+      </div>
+    </Container>
+  </footer>
 );
 
 export default Footer;

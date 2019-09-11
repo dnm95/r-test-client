@@ -1,12 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "routes";
 import {
-  Button, Table, Row, Col
+  Button, Row, Col
 } from "reactstrap";
+import moment from "moment";
 
-const EmployeeList = () => {
+const EmployeeList = (props) => {
   return (
-    <Table bordered>
+    <table className="table table-bordered">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -16,35 +18,42 @@ const EmployeeList = () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Daniel Nava Martinez</td>
-          <td>05/09/2019 08:30</td>
-          <td>05/09/2019 18:30</td>
-          <td>
+        {props.employees.length > 0 && props.employees.map((emp) => (
+          <tr key={emp.entry_date}>
+            <td>{`${emp.name} ${emp.first_name} ${emp.last_name}`}</td>
+            <td>
+              {emp.entry_date ? `${moment(emp.entry_date).format("MM-DD-YYYY")} ${moment(emp.entry_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
+            </td>
+            <td>
+              {emp.departure_date ? `${moment(emp.departure_date).format("MM-DD-YYYY")} ${moment(emp.departure_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
+            </td>
+            <td>
             <Row style={{ marginLeft: "0px", marginRight: "0px" }}>
-              <Col xs="4" style={{ padding: "0px" }}>
-                <Link route="secure.employee.detail" params={{ id: 1 }}>
+              <Col xs="6" style={{ padding: "0px" }}>
+                <Link route="secure.employee.detail" params={{ id: emp.id }}>
                   <a>
-                    <Button style={{ borderRadius: "0px" }} color="success" block>Ver</Button>
+                    <Button style={{ borderRadius: "0px", textDecoration: "none" }} color="success" block>Ver</Button>
                   </a>
                 </Link>
               </Col>
-              <Col xs="4" style={{ padding: "0px" }}>
-                <Button style={{ borderRadius: "0px" }} color="warning" block>Editar</Button>
-              </Col>
-              <Col xs="4" style={{ padding: "0px" }}>
+              <Col xs="6" style={{ padding: "0px" }}>
                 <Button style={{ borderRadius: "0px" }} color="danger" block>Eliminar</Button>
               </Col>
             </Row>
           </td>
-        </tr>
+          </tr>
+        ))}
       </tbody>
-    </Table>
+    </table>
   );
 };
 
-EmployeeList.defaultProps = {};
+EmployeeList.defaultProps = {
+  employees: [],
+};
 
-EmployeeList.propTypes = {};
+EmployeeList.propTypes = {
+  employees: PropTypes.array,
+};
 
 export default EmployeeList;

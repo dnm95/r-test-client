@@ -16,6 +16,34 @@ body {
   min-height: 100vh;
 }
 
+.footer {
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #352c60;
+  p {
+    color: #FFF;
+    margin-bottom: 0px;
+  }
+}
+
 .react-datetime-picker {
   display: block;
+}
+
+.navbar-light {
+  background: #352c60 !important;
+  .navbar-brand {
+    color: #FFF;
+    &:hover {
+      color: #FFF;
+    }
+  }
+  .navbar-nav .nav-link {
+    color: #FFF;
+    &:hover {
+      color: #FFF;
+    }
+  }
 }
