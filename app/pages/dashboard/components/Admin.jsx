@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   Button, Row, Col
 } from "reactstrap";
+import { CSVLink } from "react-csv";
 import actions from "actions";
 import selectors from "selectors";
 import { connect } from "helpers";
@@ -13,7 +14,7 @@ const Admin = (props) => {
   const { employees, onDisplayModal, onGetEmployees } = props;
   useEffect(() => {
     onGetEmployees();
-  }, [onGetEmployees])
+  }, [onGetEmployees]);
   return (
     <Row>
       <Col xs="12" style={{ padding: "1em 0px 1.5em 0px" }}>
@@ -29,8 +30,18 @@ const Admin = (props) => {
       <Col xs="12" style={{ padding: "0px" }}>
         <SearchBar />
       </Col>
-      <Col xs="12" style={{ padding: "0.5em 0px" }}>
+      <Col xs="12" style={{ padding: "0.5em 0px 0px" }}>
         <EmployeeList employees={employees} />
+      </Col>
+      <Col xs={12} style={{ padding: "0px 0px 3rem" }}>
+        <CSVLink
+          data={employees}
+          filename="attendances.csv"
+          className={`btn btn-success btn-block btn-lg ${employees[0] ? "" : "disabled"}`}
+          target="_blank"
+        >
+          Descargar registro CSV
+        </CSVLink>
       </Col>
     </Row>
   );

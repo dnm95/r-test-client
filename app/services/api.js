@@ -66,7 +66,7 @@ const AxiosDispatchResponse = (cls, verb, params) => {
   }
 
   return self.axios_instance[verb](
-    self.resource.concat("/"),
+    self.resource,
     parameters
   )
     .then(responseParser)

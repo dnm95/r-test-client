@@ -64,7 +64,7 @@ app.prepare().then(() => {
 
   server.get("/logout", asyncHandler(async (req, res, continuation) => {
     try {
-      await req.session.destroy();
+      // await req.session.destroy();
       res.cookie('token', '', { expires: new Date() });
       res.cookie('user', '', { expires: new Date() });
       return withRedirect(null, "/")(req, res, continuation);

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Collapse,
   Navbar,
@@ -8,12 +9,14 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import { connect } from "helpers";
+import selectors from "selectors";
 
-const Header = () => {
-  return (
-    <Navbar color="light" light expand="md">
-      <NavbarBrand href="/">RUNA</NavbarBrand>
-      <NavbarToggler />
+const Header = (props) => (
+  <Navbar color="light" light expand="md">
+    <NavbarBrand href="/">RUNA</NavbarBrand>
+    <NavbarToggler />
+    {props.accessToken && (
       <Collapse navbar>
         <Nav className="ml-auto" navbar>
           <NavItem>
@@ -21,12 +24,23 @@ const Header = () => {
           </NavItem>
         </Nav>
       </Collapse>
-    </Navbar>
-  );
+    )}
+  </Navbar>
+);
+
+Header.defaultProps = {
+  accessToken: null,
 };
 
-Header.defaultProps = {};
+Header.propTypes = {
+  accessToken: PropTypes.string,
+};
 
-Header.propTypes = {};
+const mapStateToProps = (state) => ({
+  accessToken: selectors.globals(state).accessToken,
+});
 
-export default Header;
+export default connect(
+  mapStateToProps,
+  null,
+)(Header);

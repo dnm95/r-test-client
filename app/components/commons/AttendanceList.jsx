@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 
-const Attendance = (props) => {
+const AttendanceList = (props) => {
   return (
     <table className="table table-bordered">
       <thead>
@@ -27,12 +27,12 @@ const Attendance = (props) => {
   );
 };
 
-Attendance.defaultProps = {
+AttendanceList.defaultProps = {
   attendances: [],
 };
 
-Attendance.propTypes = {
+AttendanceList.propTypes = {
   attendances: PropTypes.array,
 };
 
-export default Attendance;
+export default AttendanceList;

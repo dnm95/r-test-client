@@ -6,6 +6,7 @@ import actions from "actions";
 import api from "Api";
 
 import { employeeSelector } from "selectors/employee";
+import { userSelector } from "selectors/user";
 
 function* fetchEmployee(id) {
   try {
@@ -24,7 +25,8 @@ function* fetchEmployee(id) {
 }
 
 export function* getEmployee(action) {
-  const { id } = action.query;
+  const userStateId = yield select(userSelector);
+  const id = action.query ? action.query.id : userStateId.id;
   yield call(fetchEmployee, id);
 }
 
@@ -66,8 +68,25 @@ export function* createAttendace(action) {
   }
 }
 
+export function* searchAttendances(action) {
+  try {
+    api.resource = `/attendances/search?query=${action.payload.query}`;
+    const employees = yield call(api.get);
+    yield put({
+      type: actions.employee.REQUEST_EMPLOYEES_DATA_SUCCESS,
+      payload: {
+        employees,
+      },
+    });
+  } catch(error) {
+    yield put({ type: actions.employee.REQUEST_EMPLOYEES_DATA_FAILED });
+    console.log(error);
+  }
+}
+
 export default function* sagas() {
   yield takeEvery(actions.employee.REQUEST_EMPLOYEE_DATA, getEmployee);
   yield takeEvery(actions.employee.REQUEST_EMPLOYEES_DATA, getEmployees);
   yield takeEvery(actions.employee.CREATE_EMPLOYEE_ATTENDANCE, createAttendace);
+  yield takeEvery(actions.employee.SEARCH_EMPLOYEES_ATTENDANCES, searchAttendances);
 }

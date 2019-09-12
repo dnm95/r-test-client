@@ -10,3 +10,5 @@ const userSelector = createSelector(
 export default (state) => ({
   user: userSelector(state)
 });
+
+export { userSelector };

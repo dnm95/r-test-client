@@ -14,6 +14,9 @@ const Login = (props) => {
       next={next}
       buttonProps={{ copy: "Entrar" }}
     >
+      <h1 className="text-center" style={{ padding: "2rem 0px" }}>
+        Iniciar sesión
+      </h1>
       <FormGroup>
         <Label for="email">Email</Label>
         <Input
@@ -26,7 +29,7 @@ const Login = (props) => {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="password">Password</Label>
+        <Label for="password">Contraseña</Label>
         <Input
           type="password"
           name="password"

@@ -17,10 +17,12 @@ body {
 }
 
 .footer {
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
+  width:100%;
+  height:50px;
+  line-height: 50px;
+  position:relative;
+  bottom:0;
+  left:0;
   background-color: #352c60;
   p {
     color: #FFF;

@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 const initialState = fromJS({
   email: "",
   role: "",
+  id: null,
 });
 
 export default (state = initialState, action) => {
@@ -11,7 +12,8 @@ export default (state = initialState, action) => {
     const user = action.payload.user || initialState;
     return state
       .set("email", user.email)
-      .set("role", user.role);
+      .set("role", user.role)
+      .set("id", user.id);
   }
 
   default: return state;

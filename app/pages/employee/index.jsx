@@ -5,7 +5,7 @@ import HOC from "HOC";
 import actions from "actions";
 import selectors from "selectors";
 import AddEditEmployee from "components/forms/AddEditEmployee";
-import AttendanceList from "./components/AttendanceList";
+import AttendanceList from "components/commons/AttendanceList";
 
 const EmployeeDetail = (props) => {
   const { employee, onDisplayModal } = props;
