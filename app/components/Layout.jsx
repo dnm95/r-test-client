@@ -10,7 +10,6 @@ const Layout = (props) => (
   <div>
     <Head>
       <title>{ props.title }</title>
-      <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" key="viewport" />
     </Head>

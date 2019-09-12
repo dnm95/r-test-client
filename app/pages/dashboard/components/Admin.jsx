@@ -1,31 +1,29 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  Button, Row, Col
-} from "reactstrap";
+import { Row, Col } from "reactstrap";
 import { CSVLink } from "react-csv";
 import actions from "actions";
 import selectors from "selectors";
 import { connect } from "helpers";
 import SearchBar from "components/commons/SearchBar";
 import EmployeeList from "./EmployeeList";
+import Filters from "./Filters";
 
 const Admin = (props) => {
-  const { employees, onDisplayModal, onGetEmployees } = props;
+  const { employees, onDisplayModal, onGetEmployeesOrAttendances } = props;
   useEffect(() => {
-    onGetEmployees();
-  }, [onGetEmployees]);
+    onGetEmployeesOrAttendances(false, false);
+  }, [onGetEmployeesOrAttendances]);
   return (
     <Row>
-      <Col xs="12" style={{ padding: "1em 0px 1.5em 0px" }}>
-        <Button
-          outline
-          className="float-right"
-          color="info"
-          onClick={() => onDisplayModal({ title: "Añadir empleado", edit: false }, "EMPLOYEE")}
-        >
-          Agregar empleado
-        </Button>
+      <Col style={{ padding: "3rem 0px 0px" }} xs={12}>
+        <h2>Dashboard Empleados</h2>
+      </Col>
+      <Col style={{ padding: "1em 0px" }} xs={12}>
+        <Filters
+          onDisplayModal={onDisplayModal}
+          onGetEmployeesOrAttendances={onGetEmployeesOrAttendances}
+        />
       </Col>
       <Col xs="12" style={{ padding: "0px" }}>
         <SearchBar />
@@ -50,6 +48,7 @@ const Admin = (props) => {
 Admin.propTypes = {
   employees: PropTypes.array,
   onDisplayModal: PropTypes.func.isRequired,
+  onGetEmployeesOrAttendances: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -68,12 +67,12 @@ const mapDispatchToProps = (dispatch) => ({
     });
   },
 
-  onGetEmployees() {
+  onGetEmployeesOrAttendances(attendances, today) {
     dispatch({
       type: actions.employee.REQUEST_EMPLOYEES_DATA,
-      payload: {},
+      payload: { attendances, today },
     });
-  }
+  },
 });
 
 export default connect(

@@ -30,9 +30,10 @@ export function* getEmployee(action) {
   yield call(fetchEmployee, id);
 }
 
-export function* getEmployees() {
+export function* getEmployees(action) {
+  const { attendances, today } = action.payload;
   try {
-    api.resource = "/attendances";
+    api.resource = attendances ? `/attendances${today ? "?today=true" : ""}` : "/employees";
     const employees = yield call(api.get);
     yield put({
       type: actions.employee.REQUEST_EMPLOYEES_DATA_SUCCESS,
