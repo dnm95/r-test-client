@@ -26,7 +26,7 @@ function* fetchEmployee(id) {
 
 export function* getEmployee(action) {
   const userStateId = yield select(userSelector);
-  const id = action.query ? action.query.id : userStateId.id;
+  const id = action.payload.id || userStateId.id;
   yield call(fetchEmployee, id);
 }
 
@@ -42,6 +42,29 @@ export function* getEmployees() {
     });
   } catch(error) {
     yield put({ type: actions.employee.REQUEST_EMPLOYEES_DATA_FAILED });
+    console.log(error);
+  }
+}
+
+export function* createUpdateEmployee(action) {
+  const { active } = yield select(employeeSelector);
+  const { data } = action.payload;
+
+  try {
+    api.resource = `/employee${active.id ? `/${active.id}` : ""}`;
+    const body = { ...data };
+    const response = active.id ? yield call(api.put, { body }) : yield call(api.post, { body });
+    if (response.email) {
+      yield put({ type: actions.employee.REQUEST_EMPLOYEE_UPDATE_SUCCESS });
+      yield put({ type: actions.modal.HIDE_MODAL });
+      if(active.id) {
+        yield call(fetchEmployee, active.id);
+      } else {
+        yield call(getEmployees);
+      }
+    }
+  } catch(error) {
+    yield put({ type: actions.employee.REQUEST_EMPLOYEE_UPDATE_FAILED });
     console.log(error);
   }
 }
@@ -87,6 +110,7 @@ export function* searchAttendances(action) {
 export default function* sagas() {
   yield takeEvery(actions.employee.REQUEST_EMPLOYEE_DATA, getEmployee);
   yield takeEvery(actions.employee.REQUEST_EMPLOYEES_DATA, getEmployees);
+  yield takeEvery(actions.employee.REQUEST_EMPLOYEE_UPDATE, createUpdateEmployee);
   yield takeEvery(actions.employee.CREATE_EMPLOYEE_ATTENDANCE, createAttendace);
   yield takeEvery(actions.employee.SEARCH_EMPLOYEES_ATTENDANCES, searchAttendances);
 }

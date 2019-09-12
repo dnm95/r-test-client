@@ -22,7 +22,7 @@ const Layout = (props) => (
 );
 
 Layout.defaultProps = {
-  title: "Luuna"
+  title: "RUNA TEST - DANIEL NAVA"
 };
 
 Layout.propTypes = {

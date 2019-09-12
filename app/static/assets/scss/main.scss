@@ -34,12 +34,24 @@ body {
   display: block;
 }
 
+.navbar-light .navbar-toggler-icon {
+  background-color: #FFF;
+}
+
 .navbar-light {
   background: #352c60 !important;
   .navbar-brand {
     color: #FFF;
     &:hover {
       color: #FFF;
+    }
+  }
+  .nav-item {
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   .navbar-nav .nav-link {

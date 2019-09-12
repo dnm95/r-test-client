@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col, Button } from 'reactstrap';
 import HOC from "HOC";
@@ -8,14 +8,18 @@ import AddEditEmployee from "components/forms/AddEditEmployee";
 import AttendanceList from "components/commons/AttendanceList";
 
 const EmployeeDetail = (props) => {
-  const { employee, onDisplayModal } = props;
+  const { employee, onDisplayModal, onRequestEmployee } = props;
+  const { id } = props.router.query;
+  useEffect(() => {
+    onRequestEmployee(id);
+  }, [onRequestEmployee]);
   return (
     <Container>
       <h2 style={{ paddingTop: "3rem", paddingBottom: "2rem" }}>Detalle del Empleado</h2>
       <Row>
         <Col sm="5">
           <h3 style={{ paddingTop: "0.5em" }}>Información Personal</h3>
-          <AddEditEmployee employee={employee} readOnly />
+          <AddEditEmployee readOnly />
           <Row>
             <Col sm="12" style={{ padding: "1em 15px 3rem" }}>
               <Button
@@ -56,6 +60,7 @@ const EmployeeDetail = (props) => {
 
 EmployeeDetail.propTypes = {
   onDisplayModal: PropTypes.func.isRequired,
+  onRequestEmployee: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -72,10 +77,14 @@ const mapDispatchToProps = dispatch => ({
         props: { ...modalProps },
       }
     });
+  },
+
+  onRequestEmployee(id) {
+    dispatch({
+      type: actions.employee.REQUEST_EMPLOYEE_DATA,
+      payload: { id },
+    })
   }
 });
 
-export default HOC(mapStateToProps, mapDispatchToProps)(EmployeeDetail, {
-  type: actions.employee.REQUEST_EMPLOYEE_DATA,
-  payload: {}
-});
+export default HOC(mapStateToProps, mapDispatchToProps)(EmployeeDetail);

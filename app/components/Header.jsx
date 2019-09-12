@@ -9,6 +9,7 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import { Link } from "routes";
 import { connect } from "helpers";
 import selectors from "selectors";
 
@@ -18,7 +19,14 @@ const Header = (props) => (
     <NavbarToggler />
     {props.accessToken && (
       <Collapse navbar>
-        <Nav className="ml-auto" navbar>
+        <Nav className="" navbar>
+          <NavItem>
+            <Link route="secure.dashboard">
+              <a className="nav-link">
+                Dashboard
+              </a>
+            </Link>
+          </NavItem>
           <NavItem>
             <NavLink href="/logout">Salir</NavLink>
           </NavItem>

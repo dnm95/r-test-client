@@ -12,7 +12,7 @@ const SearchBar = (props) => {
   return (
     <InputGroup>
       <Input
-        placeholder="Buscar nombre o email..."
+        placeholder="Buscar por nombre o email..."
         name="search"
         id="search"
         autoComplete="off"
