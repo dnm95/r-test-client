@@ -1,10 +1,9 @@
 import { connect as connector } from "react-redux";
 
-
 const connect = (
   mapStateToProps,
   mapDispatchToProps
-) => MainComponent => connector(
+) => (MainComponent) => connector(
   mapStateToProps,
   mapDispatchToProps
 )(MainComponent);

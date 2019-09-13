@@ -4,18 +4,21 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
-} from 'reactstrap';
+} from "reactstrap";
 import { Link } from "routes";
 import { connect } from "helpers";
 import selectors from "selectors";
 
 const Header = (props) => (
   <Navbar color="light" light expand="md">
-    <NavbarBrand href="/">RUNA</NavbarBrand>
+    <Link route="secure.dashboard">
+      <a className="navbar-brand">
+        RUNA
+      </a>
+    </Link>
     <NavbarToggler />
     {props.accessToken && (
       <Collapse navbar>

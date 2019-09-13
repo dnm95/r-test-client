@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import actions from "actions/employee";
 
 const initialState = fromJS({
-  loading: false,
+  loading: true,
   active: {
     id: null,
     name: "",
@@ -20,6 +20,7 @@ export default (state = initialState, action) => {
   case actions.REQUEST_EMPLOYEE_DATA:
   case actions.REQUEST_EMPLOYEES_DATA:
   case actions.REQUEST_EMPLOYEE_UPDATE:
+  case actions.REQUEST_DELETE_EMPLOYEE:
   case actions.CREATE_EMPLOYEE_ATTENDANCE: {
     return state
       .set("loading", true);
@@ -38,7 +39,8 @@ export default (state = initialState, action) => {
       .set("loading", false);
   }
 
-  case actions.REQUEST_EMPLOYEE_UPDATE_SUCCESS: {
+  case actions.REQUEST_EMPLOYEE_UPDATE_SUCCESS:
+  case actions.REQUEST_DELETE_EMPLOYEE_SUCCESS: {
     return state
       .set("loading", false);
   }
@@ -46,6 +48,7 @@ export default (state = initialState, action) => {
   case actions.REQUEST_EMPLOYEE_DATA_FAILED:
   case actions.REQUEST_EMPLOYEES_DATA_FAILED:
   case actions.REQUEST_EMPLOYEE_UPDATE_FAILED:
+  case actions.REQUEST_DELETE_EMPLOYEE_FAILED:
   case actions.CREATE_EMPLOYEE_ATTENDANCE_FAILED: {
     return state
       .set("loading", false);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Form, FormGroup, Label, Input, Button
@@ -12,7 +12,10 @@ const AddEditEmployee = (props) => {
   const {
     employee, readOnly, edit, onSubmit
   } = props;
-  const [data, setData] = useState({ ...omit(employee.active, ["attendance"]) });
+  const [data, setData] = useState({});
+  useEffect(() => {
+    setData({ ...omit(employee.active, ["attendance"]) });
+  }, [employee]);
   return (
     <Form onSubmit={(e) => onSubmit(e, data)}>
       <FormGroup>
@@ -25,7 +28,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.name}
+          value={data.name || ""}
           required
         />
       </FormGroup>
@@ -39,7 +42,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.first_name}
+          value={data.first_name || ""}
           required
         />
       </FormGroup>
@@ -53,7 +56,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.last_name}
+          value={data.last_name || ""}
           required
         />
       </FormGroup>
@@ -67,7 +70,7 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.rfc}
+          value={data.rfc || ""}
           required
         />
       </FormGroup>
@@ -81,11 +84,11 @@ const AddEditEmployee = (props) => {
           autoComplete="off"
           onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
           disabled={employee.loading || readOnly}
-          value={data.email}
+          value={data.email || ""}
           required
         />
       </FormGroup>
-      {!edit || readOnly && (
+      {!edit && !readOnly && (
         <>
           <FormGroup>
             <Label for="password">Contraseña</Label>
@@ -97,7 +100,7 @@ const AddEditEmployee = (props) => {
               autoComplete="off"
               onChange={(e) => setData({ ...data, [e.target.name]: e.target.value })}
               disabled={employee.loading || readOnly}
-              value={data.password}
+              value={data.password || ""}
               required
             />
           </FormGroup>
@@ -107,10 +110,11 @@ const AddEditEmployee = (props) => {
               type="select"
               name="role"
               id="role"
-              value={data.role}
+              value={data.role || ""}
               onChange={(e) => setData({ ...data, role: e.target.value })}
               required
             >
+              <option disabled value="">Selecciona una opción</option>
               <option value="user">Usuario</option>
               <option value="admin">Administrador</option>
             </Input>

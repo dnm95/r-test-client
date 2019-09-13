@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "next/router";
 import PropTypes from "prop-types";
-import cookies from 'next-cookies'
+import cookies from "next-cookies";
 import api from "Api";
 import { connect } from "helpers";
 import selectors from "selectors";

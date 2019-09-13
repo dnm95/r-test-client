@@ -1,35 +1,41 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-  InputGroup, InputGroupAddon, Button, Input
+  Form, InputGroup, InputGroupAddon, Button, Input
 } from "reactstrap";
 import { connect } from "helpers";
 import actions from "actions";
 
 const SearchBar = (props) => {
-  const { onSearchAttendances } = props;
+  const { loading, onSearchAttendances } = props;
   const [query, setQuery] = useState("");
   return (
-    <InputGroup>
-      <Input
-        placeholder="Buscar por nombre o email..."
-        name="search"
-        id="search"
-        autoComplete="off"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <InputGroupAddon addonType="append">
-        <Button color="success" onClick={() => onSearchAttendances(query)}>
-          Buscar
-        </Button>
-      </InputGroupAddon>
-    </InputGroup>
+    <Form onSubmit={(e) => { e.preventDefault(); onSearchAttendances(query); }}>
+      <InputGroup>
+        <Input
+          placeholder="Buscar por nombre o email..."
+          name="search"
+          id="search"
+          autoComplete="off"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          disabled={loading}
+        />
+        <InputGroupAddon addonType="append">
+          <Button color="success" onClick={() => onSearchAttendances(query)}>
+            {loading ? (
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+            ) : "Buscar"}
+          </Button>
+        </InputGroupAddon>
+      </InputGroup>
+    </Form>
   );
 };
 
 SearchBar.propTypes = {
-  onSearch: PropTypes.func,
+  onSearchAttendances: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,4 +51,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(SearchBar);
-

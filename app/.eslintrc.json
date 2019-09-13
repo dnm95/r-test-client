@@ -56,10 +56,9 @@
       "forbid": ["array"]
     }],
     "react/no-unused-prop-types": "off",
-    "jsx-a11y/anchor-is-valid": [ "error", {
-      "components": ["Link"],
-      "specialLink": ["route", "className"],
-      "aspects": ["noHref", "invalidHref", "preferButton"]
-    }]
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "prefer-object-spread": "warn"
   }
 }

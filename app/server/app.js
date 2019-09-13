@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 const asyncHandler = require("express-async-handler");
-const cookieParser = require('cookie-parser')
+const cookieParser = require("cookie-parser");
 
 const APP_PORT = process.env.APP_PORT || 9000;
 const APP_HOST = process.env.APP_HOST || "127.0.0.1";
@@ -64,9 +64,8 @@ app.prepare().then(() => {
 
   server.get("/logout", asyncHandler(async (req, res, continuation) => {
     try {
-      // await req.session.destroy();
-      res.cookie('token', '', { expires: new Date() });
-      res.cookie('user', '', { expires: new Date() });
+      res.cookie("token", "", { expires: new Date() });
+      res.cookie("user", "", { expires: new Date() });
       return withRedirect(null, "/")(req, res, continuation);
     } catch (error) {
       console.log("this is error in logout", error);

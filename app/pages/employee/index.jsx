@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Container, Row, Col, Button } from 'reactstrap';
+import {
+  Container, Row, Col, Button
+} from "reactstrap";
 import HOC from "HOC";
 import actions from "actions";
 import selectors from "selectors";
@@ -8,11 +10,13 @@ import AddEditEmployee from "components/forms/AddEditEmployee";
 import AttendanceList from "components/commons/AttendanceList";
 
 const EmployeeDetail = (props) => {
-  const { employee, onDisplayModal, onRequestEmployee } = props;
+  const {
+    employee, onDisplayModal, onRequestEmployee, onRequestDeleteEmployee
+  } = props;
   const { id } = props.router.query;
   useEffect(() => {
     onRequestEmployee(id);
-  }, [onRequestEmployee]);
+  }, [onRequestEmployee, id]);
   return (
     <Container>
       <h2 style={{ paddingTop: "3rem", paddingBottom: "2rem" }}>Detalle del Empleado</h2>
@@ -31,9 +35,12 @@ const EmployeeDetail = (props) => {
               <Button
                 color="danger"
                 className="float-right"
-                onClick={() => onDisplayModal({ title: "Editar empleado", edit: true }, "EMPLOYEE")}
+                onClick={() => onRequestDeleteEmployee(id)}
+                disabled={employee.loading}
               >
-                Elminar Empleado
+                {employee.loading ? (
+                  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+                ) : "Elminar Empleado"}
               </Button>
             </Col>
           </Row>
@@ -46,8 +53,11 @@ const EmployeeDetail = (props) => {
                 color="primary"
                 onClick={() => onDisplayModal({ title: "Registrar hora" }, "ATTENDANCE")}
                 block
+                disabled={employee.loading}
               >
-                Registrar hora de entrada / salida
+                {employee.loading ? (
+                  <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+                ) : "Registrar hora de entrada / salida"}
               </Button>
             </Col>
           </Row>
@@ -59,15 +69,18 @@ const EmployeeDetail = (props) => {
 };
 
 EmployeeDetail.propTypes = {
+  router: PropTypes.object,
+  employee: PropTypes.object.isRequired,
   onDisplayModal: PropTypes.func.isRequired,
   onRequestEmployee: PropTypes.func.isRequired,
+  onRequestDeleteEmployee: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   employee: selectors.employee(state).employee,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   onDisplayModal(modalProps, type) {
     dispatch({
       type: actions.modal.OPEN_MODAL,
@@ -83,7 +96,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: actions.employee.REQUEST_EMPLOYEE_DATA,
       payload: { id },
-    })
+    });
+  },
+
+  onRequestDeleteEmployee(id) {
+    dispatch({
+      type: actions.employee.REQUEST_DELETE_EMPLOYEE,
+      payload: { id },
+    });
   }
 });
 

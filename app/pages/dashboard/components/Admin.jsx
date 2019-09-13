@@ -6,11 +6,14 @@ import actions from "actions";
 import selectors from "selectors";
 import { connect } from "helpers";
 import SearchBar from "components/commons/SearchBar";
-import EmployeeList from "./EmployeeList";
+import EmployeeList from "components/commons/EmployeesList";
+import EmployeeAttendanceList from "components/commons/EmployeeAttendanceList";
 import Filters from "./Filters";
 
 const Admin = (props) => {
-  const { employees, onDisplayModal, onGetEmployeesOrAttendances } = props;
+  const {
+    employees, loading, onDisplayModal, onGetEmployeesOrAttendances
+  } = props;
   useEffect(() => {
     onGetEmployeesOrAttendances(false, false);
   }, [onGetEmployeesOrAttendances]);
@@ -23,19 +26,24 @@ const Admin = (props) => {
         <Filters
           onDisplayModal={onDisplayModal}
           onGetEmployeesOrAttendances={onGetEmployeesOrAttendances}
+          loading={loading}
         />
       </Col>
       <Col xs="12" style={{ padding: "0px" }}>
-        <SearchBar />
+        <SearchBar loading={loading} />
       </Col>
       <Col xs="12" style={{ padding: "0.5em 0px 0px" }}>
-        <EmployeeList employees={employees} />
+        {employees[0] && employees[0].email ? (
+          <EmployeeList employees={employees} />
+        ) : (
+          <EmployeeAttendanceList employees={employees} />
+        )}
       </Col>
-      <Col xs={12} style={{ padding: "0px 0px 3rem" }}>
+      <Col xs={12} style={{ padding: "0px 0px 5rem" }}>
         <CSVLink
           data={employees}
           filename="attendances.csv"
-          className={`btn btn-success btn-block btn-lg ${employees[0] ? "" : "disabled"}`}
+          className={`btn btn-success btn-block btn-lg ${employees[0] && !loading ? "" : "disabled"}`}
           target="_blank"
         >
           Descargar registro CSV
@@ -47,12 +55,14 @@ const Admin = (props) => {
 
 Admin.propTypes = {
   employees: PropTypes.array,
+  loading: PropTypes.bool,
   onDisplayModal: PropTypes.func.isRequired,
   onGetEmployeesOrAttendances: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   employees: selectors.employee(state).employee.employees,
+  loading: selectors.employee(state).employee.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

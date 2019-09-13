@@ -1,19 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "routes";
+import moment from "moment";
 
-const EmployeesList = (props) => (
+const EmployeeAttendanceList = (props) => (
   <table className="table table-bordered">
     <thead>
       <tr>
-        <th scope="col">Nombre</th>
-        <th scope="col">Email</th>
-        <th scope="col">RFC</th>
+        <th>Nombre</th>
+        <th>Última Entrada</th>
+        <th>Última Salida</th>
       </tr>
     </thead>
     <tbody>
       {props.employees.length > 0 && props.employees.map((emp) => (
-        <tr key={emp.id}>
+        <tr key={emp.entry_date}>
           <td>
             <Link route="secure.employee.detail" params={{ id: emp.id }}>
               <a>
@@ -22,10 +23,10 @@ const EmployeesList = (props) => (
             </Link>
           </td>
           <td>
-            {emp.email}
+            {emp.entry_date ? `${moment(emp.entry_date).format("MM-DD-YYYY")} ${moment(emp.entry_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
           </td>
           <td>
-            {emp.rfc}
+            {emp.departure_date ? `${moment(emp.departure_date).format("MM-DD-YYYY")} ${moment(emp.departure_hour, "HH:mm:ss").format("hh:mm A")}` : "Sin registro"}
           </td>
         </tr>
       ))}
@@ -33,12 +34,12 @@ const EmployeesList = (props) => (
   </table>
 );
 
-EmployeesList.defaultProps = {
+EmployeeAttendanceList.defaultProps = {
   employees: [],
 };
 
-EmployeesList.propTypes = {
+EmployeeAttendanceList.propTypes = {
   employees: PropTypes.array,
 };
 
-export default EmployeesList;
+export default EmployeeAttendanceList;

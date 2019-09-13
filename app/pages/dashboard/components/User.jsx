@@ -9,14 +9,14 @@ import { connect } from "helpers";
 import AttendanceList from "components/commons/AttendanceList";
 
 const User = (props) => {
-  const { employee, onGetEmployee } = props;
+  const { employee, loading, onGetEmployee } = props;
   useEffect(() => {
     onGetEmployee();
   }, [onGetEmployee]);
   return (
     <Row>
       <Col xs={12}>
-        <h2 style={{ paddingTop: "3rem", paddingBottom:"1rem" }}>Hola {employee.name}!</h2>
+        <h2 style={{ paddingTop: "3rem", paddingBottom: "1rem" }}>Hola {employee.name}!</h2>
       </Col>
       <Col xs={12}>
         <div className="card">
@@ -41,7 +41,7 @@ const User = (props) => {
         <CSVLink
           data={employee.attendance}
           filename={`${employee.name}-${employee.first_name}-attendance.csv`}
-          className={`btn btn-success btn-block btn-lg ${employee.attendance[0] ? "" : "disabled"}`}
+          className={`btn btn-success btn-block btn-lg ${employee.attendance[0] && !loading ? "" : "disabled"}`}
           target="_blank"
         >
           Descargar registro CSV
@@ -53,10 +53,13 @@ const User = (props) => {
 
 User.propTypes = {
   employee: PropTypes.object,
+  loading: PropTypes.bool,
+  onGetEmployee: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   employee: selectors.employee(state).employee.active,
+  loading: selectors.employee(state).employee.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

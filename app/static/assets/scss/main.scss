@@ -49,8 +49,9 @@ body {
   .nav-item {
     a {
       text-decoration: none;
-      &:hover {
+      &:hover, &:visited, &:active {
         text-decoration: none;
+        color: #FFF;
       }
     }
   }
